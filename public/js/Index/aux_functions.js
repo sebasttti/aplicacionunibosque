@@ -405,6 +405,24 @@ function updateInfo(tabla,data){
 
 }
 
+function updateEstado(tabla,id,value){
+
+    return new Promise((resolve,reject)=>{
+      let urlToSend = url + "/API/index/common/udpateEstado/";
+      let options = {"tabla":tabla,
+                     "id": id,
+                     "value": value
+                    };
+
+      $.post(urlToSend,options)
+      .done((response)=>{
+          resolve(response);
+      });
+    });
+
+}
+
+
 
 //funcion agregada 17/09/2019
 function convertirCodigoEmpresa(value){

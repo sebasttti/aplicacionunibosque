@@ -131,61 +131,6 @@ class Viajes {
 
     activadores() {
 
-      $(document).on('click','.modificarConductorBtn',(event)=>{
-
-        const id = $(event.target).attr('id')
-        this.auxId = parseFloat(id) + 1
-
-        const conductorSelected = this.conductores[id];
-        const infoConductor = JSON.parse(conductorSelected.info_conductor);
-
-        $('#nombre').val(infoConductor.nombre);
-        $('#apellido').val(infoConductor.apellido);
-        $('#cedula').val(infoConductor.cedula);
-        $('#licencia').val(infoConductor.licencia);
-
-        $('#agregarConductor').hidden();
-        $('#crearInformacion').hidden();
-        $('.modificarInfoForm').removeClass('hidden');
-        $('#actualizarInformacion').removeClass('hidden');
-      })
-
-      $(document).on('click','#actualizarInformacion',(event)=>{
-
-        event.preventDefault();
-
-        //primero verifico que la info este
-
-        if ($('#nombre').val() == "" ||
-            $('#apellido').val() == "" ||
-            $('#cedula').val() == "" ||
-            $('#licencia').val() == "" ||
-            isNaN($('#cedula').val()) ||
-            isNaN($('#licencia').val())
-            ) {
-          alert("Por favor verifica la información antes de continuar");
-          return;
-        }
-
-        //ahora botengo la data
-        const data = {
-                      nombre: $('#nombre').val(),
-                      apellido: $('#apellido').val(),
-                      cedula: $('#cedula').val(),
-                      licencia: $('#licencia').val()
-                    }
-
-        const dataString = JSON.stringify(data);
-
-        updateInfo('conductor',this.auxId,dataString).then(response=>{
-          if (response.exito) {
-            alert('Información actualizada con éxito');
-            window.location.reload()
-          }
-        })
-
-
-      })
 
       $(document).on('click','#agregarViaje',(event)=>{
         $('#agregarViaje').hidden();
@@ -193,37 +138,64 @@ class Viajes {
         $('#crearViaje').removeClass('hidden');
       })
 
-      $(document).on('click','#crearInformacion',(event)=>{
+      $(document).on('click','#crearViaje',(event)=>{
 
         event.preventDefault();
 
         //primero verifico que la info este
 
-        if ($('#nombre').val() == "" ||
-            $('#apellido').val() == "" ||
-            $('#cedula').val() == "" ||
-            $('#licencia').val() == "" ||
-            isNaN($('#cedula').val()) ||
-            isNaN($('#licencia').val())
+        if ($('#fecha').val() == "" ||
+            $('#destino').val() == "" ||
+            $('#distancia').val() == "" ||
+            isNaN( $('#distancia').val() ) ||
+            $('#conductor').val() == "" ||
+            $('#vehiculo').val() == "" ||
+            this.materialesViaje.length < 1
             ) {
           alert("Por favor verifica la información antes de continuar");
           return;
         }
 
+        //obtengo el costo del viaje
+        let suma = 0;
+        for (let element of this.materialesViaje) {
+          suma = suma + parseFloat(element.cantidad)
+        }
+
+        let costo = (suma*800000)*(parseFloat($('#distancia').val()) / 5).toFixed(2)
+        let auxMaterial = JSON.stringify(this.materialesViaje)
+
         //ahora botengo la data
         const data = {
-                      nombre: $('#nombre').val(),
-                      apellido: $('#apellido').val(),
-                      cedula: $('#cedula').val(),
-                      licencia: $('#licencia').val()
+                      fecha: $('#fecha').val(),
+                      destino: $('#destino').val(),
+                      distancia: $('#distancia').val(),
+                      costo: costo,
+                      material: auxMaterial,
+                      conductor: $('#conductor').val(),
+                      vehiculo: $('#vehiculo').val()
                     }
 
         const dataString = JSON.stringify(data);
 
-        updateInfo('conductor',dataString).then(response=>{
+        updateInfo('viaje',dataString).then(response=>{
           if (response.exito) {
-            alert('Información actualizada con éxito');
-            window.location.reload()
+
+
+            let promise1 = updateEstado('conductor', $('#conductor').val(), '1')
+            let promise2 = updateEstado('vehiculo', $('#conductor').val(), '1')
+
+            promise1.then(response=>console.log(response));
+
+            // Promise.all([promise1,promise2]).then((response)=>{
+            //   console.log(response[0]);
+            //   // alert('Información actualizada con éxito');
+            //   // window.location.reload()
+            // })
+
+
+
+            // window.location.reload()
           }
         })
 
@@ -268,6 +240,9 @@ class Viajes {
     }
 
     iniciadores() {
+
+        $("#fecha").datetimepicker(
+        {locale: 'es',format: 'DD/MM/YYYY'});
 
         this.funciones.filtrarVehiculos()
         this.funciones.filtrarConductores()

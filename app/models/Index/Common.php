@@ -104,11 +104,27 @@ class Common{
 
   }
 
+  public function updateEstado(){
+
+    $tabla = $_REQUEST["tabla"];
+    $id = $_REQUEST["id"];
+    $value = $_REQUEST["value"];
+
+    $str = "UPDATE $tabla SET id_estado_$tabla = :value WHERE id_$tabla = $id";
+
+    $this->db->query($str);
+    $this->db->bind(':value',$value);
+    $res = $this->db->execute();
+
+    imprimirJSON(exitoFracaso($res));
+
+  }
+
   public function createInfo(){
 
     $tabla = $_REQUEST["tabla"];
     $data = $_REQUEST["data"];
-    
+
     $str = "INSERT INTO $tabla (info_$tabla) values (:data)";
 
     $this->db->query($str);
