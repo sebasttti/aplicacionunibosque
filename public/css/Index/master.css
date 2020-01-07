@@ -1,0 +1,6 @@
+body{
+    font-family: Roboto;
+    background-image: url('../../img/fondo.png');
+    background-size: cover;
+    height: 100%;
+}
