@@ -123,7 +123,7 @@
     </table>
   </div>
 
-  <div class="noViajes flex justify-content-center mt-20">
+  <div class="noViajes flex justify-content-center mt-20 hidden">
     <div class="panel panel-warning">
       <div class="panel-header bg-warning" style="padding:10px">
         <p>Actualmente no tienes viajes registrados</p>

@@ -21,24 +21,36 @@ class Viajes {
     funciones() {
       this.funciones['llenarTabla'] = () => {
 
-        let auxString = "";
-        for (let conductor of this.conductores) {
+        if (this.viajes.length <= 0) {
+          $('.contenedorTabla').hidden()
+          $('.noViajes').removeClass('hidden')
+          return;
+        }
 
-            const conductorData = JSON.parse(conductor.info_conductor);
+
+        let auxString = "";
+        for (let viaje of this.viajes) {
+
+            const viajeData = JSON.parse(viaje.info_viaje);
 
             auxString += `<tr>`;
-              auxString += `<td> ${this.conductores.indexOf(conductor) + 1} </td>`;
-              auxString += `<td> ${conductorData.nombre} </td>`;
-              auxString += `<td> ${conductorData.apellido} </td>`;
-              auxString += `<td> ${conductorData.cedula} </td>`;
-              auxString += `<td> ${conductorData.licencia} </td>`;
-              auxString += `<td> ${this.estados.find(estado => estado.id_estado == conductor.id_estado_conductor).desc_estado} </td>`;
-              auxString += `<td> <button class="btn btn-info modificarConductorBtn" id="${this.conductores.indexOf(conductor)}">Modificar</button> </td>`;
+              auxString += `<td> ${this.viajes.indexOf(viaje) + 1} </td>`;
+              auxString += `<td> ${viajeData.fecha} </td>`;
+              auxString += `<td> ${viajeData.destino} </td>`;
+              auxString += `<td> ${viajeData.distancia} </td>`;
+              auxString += `<td> ${this.funciones.materiales(viajeData.material)} </td>`;
+              auxString += `<td> ${viajeData.costo} </td>`;
+              auxString += `<td> ${JSON.parse(this.conductores.find(conductor=>conductor.id_conductor == viajeData.conductor).info_conductor).nombre} ${JSON.parse(this.conductores.find(conductor=>conductor.id_conductor == viajeData.conductor).info_conductor).apellido} </td>`;
+              auxString += `<td> ${JSON.parse(this.vehiculos.find(vehiculo=>vehiculo.id_vehiculo == viajeData.vehiculo).info_vehiculo).nombre} </td>`;
+              auxString += `<td> ${this.estado_viaje.find(estado=>estado.id_estado_viaje == viaje.estado_viaje).desc_estado_viaje} </td>`;
             auxString += `</tr>`;
         }
 
         // console.log(auxString)
         $('table tbody').append(auxString);
+
+        $('.contenedorTabla').removeClass('hidden')
+        $('.noViajes').hidden()
       }
 
       this.funciones['limpiarForm'] = () => {
@@ -58,13 +70,13 @@ class Viajes {
 
         })
 
-        this.vehiculos = auxVehiculos;
+        this.nVehiculos = auxVehiculos;
 
       }
 
       this.funciones['filtrarConductores'] = () => {
         const auxConductores = this.conductores.filter(conductor => conductor.id_estado_conductor == 2)
-        this.conductores = auxConductores
+        this.nConductores = auxConductores
       }
 
       this.funciones['llenarSelectInfo'] = (select,array, param, param2 = null) => {
@@ -101,8 +113,8 @@ class Viajes {
       }
 
       this.funciones['llenarSelects'] = () => {
-        this.funciones.llenarSelectInfo('vehiculo',this.vehiculos,'nombre')
-        this.funciones.llenarSelectInfo('conductor',this.conductores,'nombre', 'apellido')
+        this.funciones.llenarSelectInfo('vehiculo',this.nVehiculos,'nombre')
+        this.funciones.llenarSelectInfo('conductor',this.nConductores,'nombre', 'apellido')
         this.funciones.llenarSelectDesc('material',this.materiales)
       }
 
@@ -126,6 +138,11 @@ class Viajes {
           $('#tablaMaterial').removeClass('hidden')
 
         }
+      }
+
+      this.funciones['materiales'] = (array) =>{
+        let auxStr = "Hola mundo"
+        return auxStr;
       }
     }
 
@@ -187,15 +204,13 @@ class Viajes {
 
             promise1.then(response=>console.log(response));
 
-            // Promise.all([promise1,promise2]).then((response)=>{
-            //   console.log(response[0]);
-            //   // alert('Información actualizada con éxito');
-            //   // window.location.reload()
-            // })
+            Promise.all([promise1,promise2]).then((response)=>{
+              if (response[0].exito && response[1].exito) {
+                alert('Información actualizada con éxito');
+                window.location.reload()
+              }
+            })
 
-
-
-            // window.location.reload()
           }
         })
 
@@ -248,7 +263,7 @@ class Viajes {
         this.funciones.filtrarConductores()
         this.funciones.llenarSelects()
 
-        // this.funciones.llenarTabla();
+        this.funciones.llenarTabla();
         this.funciones.limpiarForm();
         esconderPreloader();
     }
@@ -264,13 +279,15 @@ class Viajes {
             let promise3 = traerInfo('vehiculo')
             let promise4 = traerInfo('material')
             let promise5 = traerInfo('viaje')
+            let promise6 = traerInfo('estado_viaje')
 
-            Promise.all([promise1,promise2,promise3, promise4, promise5]).then(result=>{
+            Promise.all([promise1,promise2,promise3, promise4, promise5, promise6]).then(result=>{
               this.estados = result[0];
               this.conductores = result[1];
               this.vehiculos = result[2],
               this.materiales = result[3],
-              this.viajes = result[4]
+              this.viajes = result[4],
+              this.estado_viaje = result[5]
               resolve(true)
             })
         })

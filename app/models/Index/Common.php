@@ -104,7 +104,7 @@ class Common{
 
   }
 
-  public function updateEstado(){
+  public function udpateEstado(){
 
     $tabla = $_REQUEST["tabla"];
     $id = $_REQUEST["id"];

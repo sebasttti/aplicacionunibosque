@@ -9,7 +9,7 @@
             <button class="btn btn-primary" link="vehiculos">Módulo de vehículos</button>
             <button class="btn btn-info" link="conductores">Módulo de conductores</button>
             <button class="btn btn-warning" link="viajes">Módulo de viajes</button>
-            <button class="btn btn-danger" link="informes">Módulo de informes</button>
+            <button class="btn btn-danger hidden" link="informes">Módulo de informes</button>
         </div>
     </div>
 </div>
