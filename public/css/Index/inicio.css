@@ -1,0 +1,37 @@
+.logo{
+    font-size: 300px;
+    color: #0a819e;
+}
+
+.subContenedorBotones{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;    
+}
+
+.contenedorBotones{
+    width: 100%;
+    margin-top:30px;    
+}
+
+.contenedor{
+    text-align: center;
+}
+
+.contenedorLogo{
+   margin-top: 100px;
+}
+
+@media(max-width:450px){
+    .subContenedorBotones {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    button{
+        margin: 20px 0 20px 0;
+    }
+    .logo{
+        font-size: 200px;
+    }    
+}

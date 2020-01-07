@@ -13,6 +13,7 @@ $css = [
 $js = [
         [URL_PATH."/vendors/jquery/dist/jquery.js",""],        
         [URL_PATH."/vendors/bootstrap3/dist/js/bootstrap.js",""],
+        [URL_PATH."/js/Index/aux_functions.js",""],
         [URL_PATH."/js/Index/master.js",""],
         [URL_PATH."/vendors/moment/min/moment.min.js",""], //moment js
         [URL_PATH."/vendors/moment/locale/es.js",""], //moment español js

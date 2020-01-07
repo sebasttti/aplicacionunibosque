@@ -4,3 +4,32 @@ body{
     background-size: cover;
     height: 100%;
 }
+
+.preloader{
+    width:100%;
+    height:100%;
+    top:0px;
+    position:fixed;
+    z-index:99999;
+    background:#fff}
+
+.flex{
+    display: flex;
+}
+
+.justify-content-center{
+    justify-content: center;
+}
+
+.align-items-center{
+    align-items: center;
+}
+
+.returnHome{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  font-size: 50px;
+  color: rgb(151, 140, 240);
+}

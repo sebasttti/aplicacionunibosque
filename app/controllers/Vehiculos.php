@@ -1,14 +1,12 @@
 <?php
 
-
-
-class Index extends Controller{
+class Vehiculos extends Controller{
 
       private $method;
       private $subcontroller;
       private $action;
 
-      public function __construct($method,$parameters=null){          
+      public function __construct($method,$parameters=null){
 
            $this->method = $method;
 
@@ -23,11 +21,11 @@ class Index extends Controller{
 
       public function main(){ //este es el metodo que carga la pagina
         $data = array();
-        $data['librerias'] = ['inicio'];   
-        $data['contenido'] = 'inicio';
+        $data['librerias'] = ['vehiculos'];
+        $data['contenido'] = 'vehiculos';
         $this->view('pages/mainPage',$data); //esta es la funcion heredada que carga la pagina
       }
 
 }
 
- ?>
+?>
