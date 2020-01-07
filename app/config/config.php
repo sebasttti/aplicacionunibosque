@@ -18,12 +18,12 @@ define('APP_PATH',dirname(dirname(__FILE__)));
 //ruta URL ejemplo http://localhost/grigat/v2/
 define('URL_PATH', getUrl() );
 //nombre del sitio
-define('SITE_NAME','_SITENAME_');
+define('SITE_NAME','Aplicativo Prueba Técnica UniBosque');
 
 //acceso a la base de datos
 define('DB_HOST','localhost');
-define('DB_USER','_USER_');
-define('DB_PASSWORD','_PASSWORD_');
-define('DB_NAME','_DATABASE_');
+define('DB_USER','root');
+define('DB_PASSWORD','');
+define('DB_NAME', APP_PATH.'/db/aplicacionUnibosque.db');
 
  ?>

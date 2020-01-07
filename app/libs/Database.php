@@ -12,20 +12,20 @@ class Database{
 
   public function __construct($alternate_db = null){
 
-      if ($alternate_db !== null) {
-          $this->db_name = $alternate_db;
-      }
-
       //configurar conexion
-      $dsn = "mysql:host=$this->host;dbname=$this->db_name";
+      $db_file = DB_NAME;
+      $dsn = "sqlite:$db_file";
+
       $options = [
-        PDO::ATTR_PERSISTENT => true,
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        PDO::ATTR_ERRMODE,
+        PDO::ERRMODE_WARNING
       ];
 
       try {
-          $this->dbh = new PDO($dsn,$this->user,$this->password,$options);
-          $this->dbh->exec('set names utf8');
+          $this->dbh = new PDO($dsn,DB_USER,DB_PASSWORD);
+          $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+
+          //$this->dbh->exec('set names utf8');
 
       } catch (PDOException $e) {
           $this->error = $e->getMessage();
