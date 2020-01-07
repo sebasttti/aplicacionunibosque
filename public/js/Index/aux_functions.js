@@ -355,7 +355,7 @@ function verificarForm(checkForm,exceptions = []){
 function traerInfo(tabla,id=false,column=false){
 
     return new Promise((resolve,reject)=>{
-      let urlToSend = url + "/functions/index/common/traerInfo/";
+      let urlToSend = url + "/API/index/common/traerInfo/";
       let options = {"tabla":tabla};
 
         if (id) {
@@ -365,6 +365,37 @@ function traerInfo(tabla,id=false,column=false){
         if (column) {
           options['column'] = column;
         }
+
+      $.post(urlToSend,options)
+      .done((response)=>{
+          resolve(response);
+      });
+    });
+
+}
+
+function updateInfo(tabla,id,data){
+
+    return new Promise((resolve,reject)=>{
+      let urlToSend = url + "/API/index/common/updateInfo/";
+      let options = {"tabla":tabla,
+                     "id": id,
+                     "data": data};
+
+      $.post(urlToSend,options)
+      .done((response)=>{
+          resolve(response);
+      });
+    });
+
+}
+
+function updateInfo(tabla,data){
+
+    return new Promise((resolve,reject)=>{
+      let urlToSend = url + "/API/index/common/createInfo/";
+      let options = {"tabla":tabla,
+                     "data": data};
 
       $.post(urlToSend,options)
       .done((response)=>{
