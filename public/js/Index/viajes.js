@@ -141,9 +141,21 @@ class Viajes {
         }
       }
 
-      this.funciones['materiales'] = (array) =>{
-        let auxStr = "Hola mundo"
-        return auxStr;
+      this.funciones['materiales'] = (arrMateriales) =>{
+        const materiales = JSON.parse(arrMateriales)
+
+            let auxString = ""
+
+            for (const lookMaterial of materiales) {
+
+                auxString += this.materiales.find(material=>material.id_material == lookMaterial.id ).desc_material
+                auxString += ", "
+                
+            }
+
+            auxString = auxString.substring(0,auxString.length -2)
+
+            return auxString
       }
     }
 
