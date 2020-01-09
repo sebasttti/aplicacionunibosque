@@ -42,7 +42,8 @@ class Viajes {
               auxString += `<td> ${viajeData.costo} </td>`;
               auxString += `<td> ${JSON.parse(this.conductores.find(conductor=>conductor.id_conductor == viajeData.conductor).info_conductor).nombre} ${JSON.parse(this.conductores.find(conductor=>conductor.id_conductor == viajeData.conductor).info_conductor).apellido} </td>`;
               auxString += `<td> ${JSON.parse(this.vehiculos.find(vehiculo=>vehiculo.id_vehiculo == viajeData.vehiculo).info_vehiculo).nombre} </td>`;
-              auxString += `<td> ${this.estado_viaje.find(estado=>estado.id_estado_viaje == viaje.estado_viaje).desc_estado_viaje} </td>`;
+              auxString += `<td> ${this.estado_viaje.find(estado=>estado.id_estado_viaje == viaje.id_estado_viaje).desc_estado_viaje} </td>`;
+              auxString += `<td><button class="btn btn-info confirmarViaje" idViaje="${viaje.id_viaje}">Concluir viaje</button></td>`
             auxString += `</tr>`;
         }
 
@@ -195,7 +196,7 @@ class Viajes {
 
         const dataString = JSON.stringify(data);
 
-        updateInfo('viaje',dataString).then(response=>{
+        createInfo('viaje',dataString).then(response=>{
           if (response.exito) {
 
 
@@ -250,6 +251,46 @@ class Viajes {
 
         this.funciones.llenarTablaMateriales();
 
+      })
+
+      $(document).on('click','.confirmarViaje',(event)=>{
+        event.preventDefault();
+
+        const id = $(event.target).attr('idViaje');
+        console.log(id)
+
+        const cn = confirm("¿Deseas dar por concluido este viaje?")
+
+        if(cn){
+
+          // necesito obtener el conductor y el vehiculo
+          const infoViaje = JSON.parse(this.viajes.find(viaje=>viaje.id_viaje == id).info_viaje);
+          const conductor = infoViaje.conductor
+          const vehiculo = infoViaje.vehiculo
+
+          //ahora hago las promesas
+
+          //le digo la viaje que este finalizado
+          let promise1 = updateEstado('viaje',id,'2')
+          //le digo al conductor que este disponible
+          let promise2 = updateEstado('conductor',conductor,'2')
+          // le digo al vehiculo quye este disponible
+          let promise3 = updateEstado('vehiculo',vehiculo,'2')
+
+          Promise.all([promise1,promise2,promise3])
+          .then((response)=>{
+            console.log(response)
+
+            if(response[0].exito && response[1].exito && response[2].exito){
+              alert("Información actualizada con ecito")
+              window.location.reload()
+            }
+          })
+
+
+         /*  let promise1 = updateEstado('conductor', $('#conductor').val(), '1')
+          let promise2 = updateEstado('vehiculo', $('#conductor').val(), '1') */
+        }
       })
 
     }

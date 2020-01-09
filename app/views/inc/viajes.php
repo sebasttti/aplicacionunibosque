@@ -115,6 +115,7 @@
           <th>Conductor</th>
           <th>Vehículo</th>
           <th>Estado</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>

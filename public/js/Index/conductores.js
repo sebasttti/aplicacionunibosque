@@ -114,6 +114,7 @@ class Conductores {
 
         event.preventDefault();
 
+        
         //primero verifico que la info este
 
         if ($('#nombre').val() == "" ||
@@ -137,7 +138,10 @@ class Conductores {
 
         const dataString = JSON.stringify(data);
 
-        updateInfo('conductor',dataString).then(response=>{
+        createInfo('conductor',dataString).then(response=>{
+
+          console.log(response);
+
           if (response.exito) {
             alert('Información actualizada con éxito');
             window.location.reload()

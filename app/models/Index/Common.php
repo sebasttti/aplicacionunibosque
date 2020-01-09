@@ -148,6 +148,10 @@ class Common{
   function session(){
     print_r($_SESSION);
   }
+
+  function ejemplo(){
+    echo "Hola mundo";
+  }
 }
 
 

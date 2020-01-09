@@ -11,7 +11,12 @@ var getLocation = function(param){
         return res[5];
       break;
     case "url":
-        return res[0]+"/"+res[1]+"/"+res[2]+"/"+res[3];
+
+        if(res[2] == 'localhost'){
+          return res[0]+"/"+res[1]+"/"+res[2]+"/"+res[3];
+        }else{
+          return res[0]+"/"+res[1]+"/"+res[2]
+        }        
       break;
     default:
         return "No existe la locación";
@@ -369,7 +374,8 @@ function traerInfo(tabla,id=false,column=false){
       $.post(urlToSend,options)
       .done((response)=>{
           resolve(response);
-      });
+      })
+      .fail(response=>reject(response))
     });
 
 }
@@ -390,7 +396,7 @@ function updateInfo(tabla,id,data){
 
 }
 
-function updateInfo(tabla,data){
+function createInfo(tabla,data){
 
     return new Promise((resolve,reject)=>{
       let urlToSend = url + "/API/index/common/createInfo/";
